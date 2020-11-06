@@ -32,10 +32,29 @@ fs.writeFile('./writeData.md', 'This is the fs-writeFile!', function(error) {
 //返回一个Server实例,提供对数据的服务
 var server = http.createServer();
 //注册request请求事件
-server.on('request', function() {
-    console.log('收到客户端的请求了！')
+//回调函数有两个参数，一个是request对象，一个是response对象
+server.on('request', function(request, response) {
+    var goods = [{
+        name: '苹果',
+        price: '5元/斤'
+    }, {
+        name: '梨',
+        price: '4元/斤'
+    }, {
+        name: '香蕉',
+        price: '6元/斤'
+    }];
+    if (request.url === '/') {
+        response.end('hello nodejs\n');
+    } else if (request.url === '/login') {
+        response.end('login !');
+    } else if (request.url === '/goods') {
+        response.end(JSON.stringify(goods));
+    } else {
+        response.end('404 NOT FOUND !');
+    }
 });
 //启动服务器.绑定端口号
-server.listen(5555, function() {
-    console.log('服务器启动成功了，可以通过http://127.0.0.1:5555/ 进行访问');
+server.listen(3000, function() {
+    console.log('服务器启动成功了，可以通过http://127.0.0.1:3000/ 进行访问');
 })
